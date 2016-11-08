@@ -103,9 +103,15 @@ RUN conda install --quiet --yes \
 
 RUN pip --no-cache-dir install 'jupyterhub==0.5'
 
+# Add the pyqae package
+ADD ../../pyqae-master/dist/pyqae_python-0.1-py3.5.egg $HOME/pyqae.egg
+RUN easy_install $HOME/pyqae.egg
+
+
 # Setup for standard runtime
-# Add the notebooks directory
-ADD notebooks $HOME/notebooks
+# Add the notebooks directory to the docker
+ADD ../notebooks $HOME/notebooks
+
 
 # Set up the kernelspec
 RUN /opt/conda/bin/ipython kernel install
