@@ -47,7 +47,7 @@ RUN apt-get install -y default-jre
 ENV APACHE_SPARK_VERSION 2.0.1
 ENV PYJ_VERSION py4j-0.10.1-src.zip
 RUN apt-get -y update && \
-    apt-get install -y --no-install-recommends openjdk-8-jre-headless && \
+    apt-get install -y --no-install-recommends openjdk-7-jre-headless && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 RUN cd /tmp && \
@@ -103,9 +103,11 @@ RUN conda install --quiet --yes \
 
 RUN pip --no-cache-dir install 'jupyterhub==0.5'
 
-# Add the pyqae package
-ADD ../../pyqae-master/dist/pyqae_python-0.1-py3.5.egg $HOME/pyqae.egg
-RUN easy_install $HOME/pyqae.egg
+ADD ../data $HOME/data # test data
+ADD ../jars $HOME/jars # spark extensions / packages
+# Add any prebuilt python packages in the eggs folder
+ADD ../eggs $HOME/py_eggs
+RUN easy_install $HOME/py_eggs/*.egg
 
 
 # Setup for standard runtime
