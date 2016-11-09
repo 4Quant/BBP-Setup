@@ -78,9 +78,7 @@ RUN conda install --yes numpy pandas scikit-learn scikit-image matplotlib scipy 
 RUN /bin/bash -c "pip install mistune"
 
 # Bolt setup
-#RUN apt-get -y update && \
-#	apt-get install -y git python-pip ipython gcc && \
-#	apt-get clean
+# use the latest from the master branch
 RUN git clone https://github.com/bolt-project/bolt
 RUN /bin/bash -c "pip install -r bolt/requirements.txt"
 ENV BOLT_ROOT $HOME/bolt
@@ -103,26 +101,30 @@ RUN conda install --quiet --yes \
 
 RUN pip --no-cache-dir install 'jupyterhub==0.5'
 
-ADD ../data $HOME/data # test data
-ADD ../jars $HOME/jars # spark extensions / packages
-# Add any prebuilt python packages in the eggs folder
-ADD ../eggs $HOME/py_eggs
-RUN easy_install $HOME/py_eggs/*.egg
 
+# setup shared folders
+USER root
+
+# test data
+ADD data $HOME/data
+
+#spark extensions / packages
+ADD jars $HOME/spark_jars 
+
+#Add any prebuilt python packages in the eggs folder
+ADD eggs $HOME/py_eggs
 
 # Setup for standard runtime
 # Add the notebooks directory
 ADD notebooks $HOME/notebooks
 
-# Set up the kernelspec
-RUN /opt/conda/bin/ipython kernel install
-
 # Set permissions on the notebooks
 RUN chown -R bbp_user:bbp_user $HOME/notebooks
 RUN chown -R bbp_user:bbp_user $HOME/data
-RUN chown -R bbp_user:bbp_user $HOME/jars
+RUN chown -R bbp_user:bbp_user $HOME/spark_jars
 RUN chown -R bbp_user:bbp_user $HOME/py_eggs
 
+#TODO FIX RUN easy_install $HOME/py_eggs/*.egg
 
 # Switch back to non-root user
 USER bbp_user
