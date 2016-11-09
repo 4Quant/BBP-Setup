@@ -92,6 +92,9 @@ RUN conda install --quiet --yes --channel https://conda.anaconda.org/conda-forge
 # Keras
 RUN conda install --channel https://conda.anaconda.org/KEHANG --quiet --yes 'keras=1.0.8'
 
+# Simple ITK
+RUN conda install --channel https://conda.anaconda.org/SimpleITK --quiet --yes 'SimpleITK=0.10.0'
+
 # Install Jupyter notebook as bbp_user
 RUN conda install --quiet --yes \
     'notebook=4.2*' \
