@@ -111,15 +111,18 @@ RUN easy_install $HOME/py_eggs/*.egg
 
 
 # Setup for standard runtime
-# Add the notebooks directory to the docker
-ADD ../notebooks $HOME/notebooks
-
+# Add the notebooks directory
+ADD notebooks $HOME/notebooks
 
 # Set up the kernelspec
 RUN /opt/conda/bin/ipython kernel install
 
 # Set permissions on the notebooks
 RUN chown -R bbp_user:bbp_user $HOME/notebooks
+RUN chown -R bbp_user:bbp_user $HOME/data
+RUN chown -R bbp_user:bbp_user $HOME/jars
+RUN chown -R bbp_user:bbp_user $HOME/py_eggs
+
 
 # Switch back to non-root user
 USER bbp_user
