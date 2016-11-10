@@ -137,7 +137,6 @@ WORKDIR $HOME/notebooks
 # Setup Spark + IPython env vars
 ENV PYSPARK_PYTHON=/opt/conda/bin/python
 ENV PYSPARK_DRIVER_PYTHON=/opt/conda/bin/python
-ENV IPYTHON 1
-ENV IPYTHON_OPTS "notebook --ip=0.0.0.0"
+ENV PYSPARK_DRIVER_PYTHON_OPTS "notebook --ip=0.0.0.0"
 
 CMD /bin/bash -c pyspark
