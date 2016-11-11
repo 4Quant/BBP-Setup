@@ -94,6 +94,8 @@ RUN conda install --channel https://conda.anaconda.org/KEHANG --quiet --yes 'ker
 
 # Simple ITK
 RUN conda install --channel https://conda.anaconda.org/SimpleITK --quiet --yes 'SimpleITK=0.10.0'
+# GDAL
+RUN conda install --channel https://conda.anaconda.org/anaconda --quiet --yes 'gdal=2.1.0'
 
 # Install Jupyter notebook as bbp_user
 RUN conda install --quiet --yes \
